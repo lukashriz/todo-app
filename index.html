@@ -1,226 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App | Lukáš Hriž</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#10b981',
-                        secondary: '#34d399'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-        }
-        .todo-item {
-            transition: all 0.3s ease;
-        }
-        .todo-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 6px -1px rgba(16, 181, 129, 0.2);
-        }
-        .checkmark {
-            transition: all 0.2s ease;
-        }
-        .checkmark:hover {
-            transform: scale(1.1);
-        }
-        .completed .todo-text {
-            text-decoration: line-through;
-            color: #94a3b8;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App | Lukáš Hriž</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <!-- Tailwind Custom Colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#10b981',
+            secondary: '#34d399',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Custom Styles -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+
+    .todo-item {
+      transition: all 0.3s ease;
+    }
+
+    .todo-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 6px -1px rgba(16, 181, 129, 0.2);
+    }
+
+    .checkmark {
+      transition: all 0.2s ease;
+    }
+
+    .checkmark:hover {
+      transform: scale(1.1);
+    }
+
+    .completed .todo-text {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+  </style>
 </head>
+
 <body class="min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-sm">
-        <div class="max-w-md mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <i class="fas fa-check-circle text-primary"></i>
-                    Todo App
-                </h1>
-                <div class="flex items-center gap-2 text-sm text-gray-600">
-                    <i class="fas fa-code"></i>
-                    <span>by Lukáš Hriž</span>
-                </div>
-            </div>
-        </div>
-    </header>
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-md mx-auto px-4 py-6 flex items-center justify-between">
+      <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        <i class="fas fa-check-circle text-primary"></i> Todo App
+      </h1>
+      <div class="flex items-center gap-2 text-sm text-gray-600">
+        <i class="fas fa-code"></i>
+        <span>by Lukáš Hriž</span>
+      </div>
+    </div>
+  </header>
 
-    <!-- Main Content -->
-    <main class="max-w-md mx-auto px-4 py-8">
-        <!-- Add Task Form -->
-        <form id="task-form" class="mb-8">
-            <div class="flex gap-2">
-                <input 
-                    type="text" 
-                    id="task-input" 
-                    placeholder="Add a new task..." 
-                    class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
-                    required
-                >
-                <button 
-                    type="submit" 
-                    class="bg-primary hover:bg-emerald-700 text-white px-4 rounded-lg font-medium transition-colors duration-300"
-                >
-                    Add
-                </button>
-            </div>
-        </form>
+  <!-- Main -->
+  <main class="max-w-md mx-auto px-4 py-8">
+    <!-- Add Task Form -->
+    <form id="task-form" class="mb-8">
+      <div class="flex gap-2">
+        <input
+          id="task-input"
+          type="text"
+          placeholder="Add a new task..."
+          required
+          class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+        />
+        <button
+          type="submit"
+          class="bg-primary hover:bg-emerald-700 text-white px-4 rounded-lg font-medium transition-colors"
+        >
+          Add
+        </button>
+      </div>
+    </form>
 
-        <!-- Task Stats -->
-        <div class="flex justify-between items-center mb-6 text-sm text-gray-600">
-            <span id="task-count">0 tasks</span>
-            <button id="clear-completed" class="text-gray-500 hover:text-primary transition-colors">
-                Clear Completed
-            </button>
-        </div>
+    <!-- Task Stats -->
+    <div class="flex justify-between items-center mb-6 text-sm text-gray-600">
+      <span id="task-count">0 tasks</span>
+      <button
+        id="clear-completed"
+        class="text-gray-500 hover:text-primary transition-colors"
+      >
+        Clear Completed
+      </button>
+    </div>
 
-        <!-- Task List -->
-        <ul id="task-list" class="space-y-3">
-            <!-- Tasks will be added here dynamically -->
-        </ul>
+    <!-- Task List -->
+    <ul id="task-list" class="space-y-3"></ul>
 
-        <!-- Empty State -->
-        <div id="empty-state" class="text-center py-12 text-gray-500 hidden">
-            <i class="fas fa-clipboard-list text-4xl mb-4 text-gray-300"></i>
-            <p class="text-lg">No tasks yet</p>
-            <p class="mt-2">Add your first task above!</p>
-        </div>
-    </main>
+    <!-- Empty State -->
+    <div id="empty-state" class="text-center py-12 text-gray-500 hidden">
+      <i class="fas fa-clipboard-list text-4xl mb-4 text-gray-300"></i>
+      <p class="text-lg">No tasks yet</p>
+      <p class="mt-2">Add your first task above!</p>
+    </div>
+  </main>
 
-    <script>
-        // DOM Elements
-        const taskForm = document.getElementById('task-form');
-        const taskInput = document.getElementById('task-input');
-        const taskList = document.getElementById('task-list');
-        const taskCount = document.getElementById('task-count');
-        const clearCompletedBtn = document.getElementById('clear-completed');
-        const emptyState = document.getElementById('empty-state');
+  <script>
+    // Get elements
+    const taskForm = document.getElementById('task-form');
+    const taskInput = document.getElementById('task-input');
+    const taskList = document.getElementById('task-list');
+    const taskCount = document.getElementById('task-count');
+    const clearCompletedBtn = document.getElementById('clear-completed');
+    const emptyState = document.getElementById('empty-state');
 
-        // Load tasks from localStorage
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    // Load saved tasks or start empty
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-        // Initialize the app
-        function init() {
-            renderTasks();
-            updateTaskCount();
-        }
+    // === INIT ===
+    function init() {
+      renderTasks();
+      updateTaskCount();
+    }
 
-        // Render all tasks to the DOM
-        function renderTasks() {
-            if (tasks.length === 0) {
-                emptyState.classList.remove('hidden');
-                taskList.innerHTML = '';
-                return;
-            }
+    // === RENDER TASKS ===
+    function renderTasks() {
+      taskList.innerHTML = '';
 
-            emptyState.classList.add('hidden');
-            taskList.innerHTML = '';
+      if (tasks.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
 
-            tasks.forEach((task, index) => {
-                const taskItem = document.createElement('li');
-                taskItem.className = `todo-item bg-white rounded-lg p-4 shadow-sm border border-emerald-100 flex items-center gap-3 ${task.completed ? 'completed' : ''}`;
-                taskItem.innerHTML = `
-                    <button class="checkmark w-6 h-6 rounded-full border-2 flex items-center justify-center ${task.completed ? 'bg-primary border-primary' : 'border-gray-300' }" data-index="${index}">
-                        ${task.completed ? '<i class="fas fa-check text-white text-xs"></i>' : ''}
-                    </button>
-                    <span class="todo-text flex-1 font-medium ${task.completed ? 'text-gray-500' : 'text-gray-800'}">${task.text}</span>
-                    <button class="delete-btn text-gray-400 hover:text-red-500 transition-colors" data-index="${index}">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                `;
-                taskList.appendChild(taskItem);
-            });
+      emptyState.classList.add('hidden');
 
-            // Add event listeners to new elements
-            document.querySelectorAll('.checkmark').forEach(btn => {
-                btn.addEventListener('click', toggleTask);
-            });
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.className = `todo-item bg-white rounded-lg p-4 shadow-sm border border-emerald-100 flex items-center gap-3 ${
+          task.completed ? 'completed' : ''
+        }`;
 
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', deleteTask);
-            });
-        }
+        li.innerHTML = `
+          <button class="checkmark w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+            task.completed ? 'bg-primary border-primary' : 'border-gray-300'
+          }" data-index="${index}">
+            ${task.completed ? '<i class="fas fa-check text-white text-xs"></i>' : ''}
+          </button>
+          <span class="todo-text flex-1 font-medium ${
+            task.completed ? 'text-gray-500' : 'text-gray-800'
+          }">${task.text}</span>
+          <button class="delete-btn text-gray-400 hover:text-red-500" data-index="${index}">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        `;
 
-        // Add a new task
-        function addTask(text) {
-            if (text.trim() === '') return;
-            
-            tasks.push({
-                text: text.trim(),
-                completed: false,
-                createdAt: new Date().toISOString()
-            });
-            
-            saveTasks();
-            renderTasks();
-            updateTaskCount();
-        }
+        taskList.appendChild(li);
+      });
 
-        // Toggle task completion status
-        function toggleTask(e) {
-            const index = e.currentTarget.dataset.index;
-            tasks[index].completed = !tasks[index].completed;
-            saveTasks();
-            renderTasks();
-            updateTaskCount();
-        }
+      // attach button listeners
+      document.querySelectorAll('.checkmark').forEach(btn =>
+        btn.addEventListener('click', toggleTask)
+      );
+      document.querySelectorAll('.delete-btn').forEach(btn =>
+        btn.addEventListener('click', deleteTask)
+      );
+    }
 
-        // Delete a task
-        function deleteTask(e) {
-            const index = e.currentTarget.dataset.index;
-            tasks.splice(index, 1);
-            saveTasks();
-            renderTasks();
-            updateTaskCount();
-        }
+    // === ADD TASK ===
+    function addTask(text) {
+      const newTask = {
+        text: text.trim(),
+        completed: false,
+        createdAt: new Date().toISOString(),
+      };
+      if (!newTask.text) return;
 
-        // Clear all completed tasks
-        function clearCompleted() {
-            tasks = tasks.filter(task => !task.completed);
-            saveTasks();
-            renderTasks();
-            updateTaskCount();
-        }
+      tasks.push(newTask);
+      saveTasks();
+      renderTasks();
+      updateTaskCount();
+    }
 
-        // Update task counter
-        function updateTaskCount() {
-            const total = tasks.length;
-            const completed = tasks.filter(task => task.completed).length;
-            taskCount.textContent = `${total} ${total === 1 ? 'task' : 'tasks'} (${completed} completed)`;
-        }
+    // === TOGGLE COMPLETION ===
+    function toggleTask(e) {
+      const index = e.currentTarget.dataset.index;
+      tasks[index].completed = !tasks[index].completed;
+      saveTasks();
+      renderTasks();
+      updateTaskCount();
+    }
 
-        // Save tasks to localStorage
-        function saveTasks() {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
+    // === DELETE TASK ===
+    function deleteTask(e) {
+      const index = e.currentTarget.dataset.index;
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+      updateTaskCount();
+    }
 
-        // Event Listeners
-        taskForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            addTask(taskInput.value);
-            taskInput.value = '';
-            taskInput.focus();
-        });
+    // === CLEAR COMPLETED ===
+    function clearCompleted() {
+      tasks = tasks.filter(t => !t.completed);
+      saveTasks();
+      renderTasks();
+      updateTaskCount();
+    }
 
-        clearCompletedBtn.addEventListener('click', clearCompleted);
+    // === UPDATE COUNTER ===
+    function updateTaskCount() {
+      const total = tasks.length;
+      const done = tasks.filter(t => t.completed).length;
+      taskCount.textContent = `${total} ${total === 1 ? 'task' : 'tasks'} (${done} completed)`;
+    }
 
-        // Initialize the app
-        init();
-    </script>
+    // === SAVE ===
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // === EVENT LISTENERS ===
+    taskForm.addEventListener('submit', e => {
+      e.preventDefault();
+      addTask(taskInput.value);
+      taskInput.value = '';
+      taskInput.focus();
+    });
+
+    clearCompletedBtn.addEventListener('click', clearCompleted);
+
+    // Start app
+    init();
+  </script>
 </body>
 </html>
