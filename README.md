@@ -36,4 +36,4 @@ It allows you to add, complete, and delete tasks — all saved locally in your b
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/todo-app.git
+   git clone https://github.com/lukashriz/todo-app.git
