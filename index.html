@@ -5,121 +5,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Todo App | Lukáš Hriž</title>
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome Icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind Custom Colors -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#10b981',
-            secondary: '#34d399',
+            primary: {
+              50: '#e0f2e9',
+              100: '#c8e6d9',
+              200: '#a8d8b9',
+              300: '#8ac9a0',
+              400: '#6ab097',
+              500: '#4a9985',
+              600: '#3a7d6a',
+            }
           },
-        },
-      },
-    };
+          borderRadius: {
+            '4xl': '2rem'
+          }
+        }
+      }
+    }
   </script>
 
-  <!-- Custom Styles -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f9fbfa 0%, #edf6f2 100%);
+      color: #1f2937;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(209, 213, 219, 0.6);
+      box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.06);
+      border-radius: 1.75rem;
+      padding: 1.5rem;
     }
 
     .todo-item {
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 1.25rem;
+      overflow: hidden;
     }
 
     .todo-item:hover {
-      transform: translateX(5px);
-      box-shadow: 0 4px 6px -1px rgba(16, 181, 129, 0.2);
-    }
-
-    .checkmark {
-      transition: all 0.2s ease;
-    }
-
-    .checkmark:hover {
-      transform: scale(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px -4px rgba(74, 153, 133, 0.2);
     }
 
     .completed .todo-text {
       text-decoration: line-through;
-      color: #94a3b8;
+      color: #94a3b8 !important;
+    }
+
+    .checkmark-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .checkmark-btn:not(.checked):hover {
+      background-color: #f0fdf4;
+      border-color: #4a9985;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4a9985, #3a7d6a);
+      color: white;
+      border-radius: 1rem;
+      padding: 0.6rem 1.25rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(74, 153, 133, 0.3);
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(74, 153, 133, 0.4);
+    }
+
+    .btn-outline {
+      color: #4a9985;
+      font-weight: 600;
+      border-radius: 1rem;
+      padding: 0.4rem 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      color: #3a7d6a;
+      background-color: #f0fdf4;
+    }
+
+    .delete-btn:hover {
+      color: #ef4444 !important;
     }
   </style>
 </head>
 
-<body class="min-h-screen">
-  <!-- Header -->
-  <header class="bg-white shadow-sm">
-    <div class="max-w-md mx-auto px-4 py-6 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-        <i class="fas fa-check-circle text-primary"></i> Todo App
-      </h1>
-      <div class="flex items-center gap-2 text-sm text-gray-600">
-        <i class="fas fa-code"></i>
-        <span>by Lukáš Hriž</span>
+<body class="min-h-screen py-8">
+  <div class="max-w-md mx-auto px-4">
+    <!-- Header -->
+    <header class="text-center mb-10">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-white mb-4 shadow-lg">
+        <i class="fas fa-check"></i>
       </div>
-    </div>
-  </header>
+      <h1 class="text-3xl font-bold text-gray-800 mb-1">Todo App</h1>
+      <p class="text-gray-600">by Lukáš Hriž</p>
+    </header>
 
-  <!-- Main -->
-  <main class="max-w-md mx-auto px-4 py-8">
-    <!-- Add Task Form -->
-    <form id="task-form" class="mb-8">
-      <div class="flex gap-2">
+    <!-- Main Card -->
+    <main class="glass-card">
+      <!-- Add Task Form -->
+      <form id="task-form" class="mb-6 flex gap-3">
         <input
           id="task-input"
           type="text"
           placeholder="Add a new task..."
           required
-          class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+          class="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-400 focus:border-transparent outline-none"
         />
-        <button
-          type="submit"
-          class="bg-primary hover:bg-emerald-700 text-white px-4 rounded-lg font-medium transition-colors"
-        >
-          Add
+        <button type="submit" class="btn-primary flex items-center justify-center w-12 h-12 p-0">
+          <i class="fas fa-plus text-sm"></i>
+        </button>
+      </form>
+
+      <!-- Stats & Clear -->
+      <div class="flex justify-between items-center mb-6 text-sm text-gray-600">
+        <span id="task-count" class="font-medium">0 tasks</span>
+        <button id="clear-completed" class="btn-outline flex items-center gap-1">
+          <i class="fas fa-trash-alt text-xs"></i> Clear Completed
         </button>
       </div>
-    </form>
 
-    <!-- Task Stats -->
-    <div class="flex justify-between items-center mb-6 text-sm text-gray-600">
-      <span id="task-count">0 tasks</span>
-      <button
-        id="clear-completed"
-        class="text-gray-500 hover:text-primary transition-colors"
-      >
-        Clear Completed
-      </button>
-    </div>
+      <!-- Task List -->
+      <ul id="task-list" class="space-y-3"></ul>
 
-    <!-- Task List -->
-    <ul id="task-list" class="space-y-3"></ul>
+      <!-- Empty State -->
+      <div id="empty-state" class="text-center py-10 hidden">
+        <div class="inline-block p-4 bg-primary-50 rounded-full mb-4">
+          <i class="fas fa-clipboard-list text-3xl text-primary-500"></i>
+        </div>
+        <p class="text-lg font-medium text-gray-700">No tasks yet</p>
+        <p class="text-gray-500 mt-1">Add your first task above!</p>
+      </div>
+    </main>
 
-    <!-- Empty State -->
-    <div id="empty-state" class="text-center py-12 text-gray-500 hidden">
-      <i class="fas fa-clipboard-list text-4xl mb-4 text-gray-300"></i>
-      <p class="text-lg">No tasks yet</p>
-      <p class="mt-2">Add your first task above!</p>
-    </div>
-  </main>
+    <footer class="mt-8 text-center text-gray-500 text-sm">
+      <p>Tasks are saved in your browser</p>
+    </footer>
+  </div>
 
   <script>
-    // Get elements
     const taskForm = document.getElementById('task-form');
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
@@ -127,16 +180,13 @@
     const clearCompletedBtn = document.getElementById('clear-completed');
     const emptyState = document.getElementById('empty-state');
 
-    // Load saved tasks or start empty
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    // === INIT ===
     function init() {
       renderTasks();
       updateTaskCount();
     }
 
-    // === RENDER TASKS ===
     function renderTasks() {
       taskList.innerHTML = '';
 
@@ -149,29 +199,22 @@
 
       tasks.forEach((task, index) => {
         const li = document.createElement('li');
-        li.className = `todo-item bg-white rounded-lg p-4 shadow-sm border border-emerald-100 flex items-center gap-3 ${
-          task.completed ? 'completed' : ''
-        }`;
+        li.className = `todo-item bg-white p-4 flex items-center gap-4 border border-gray-100 ${task.completed ? 'completed' : ''}`;
 
         li.innerHTML = `
-          <button class="checkmark w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-            task.completed ? 'bg-primary border-primary' : 'border-gray-300'
-          }" data-index="${index}">
+          <button class="checkmark-btn ${task.completed ? 'checked bg-primary-500 border-primary-500' : 'border-2 border-gray-300'}" data-index="${index}">
             ${task.completed ? '<i class="fas fa-check text-white text-xs"></i>' : ''}
           </button>
-          <span class="todo-text flex-1 font-medium ${
-            task.completed ? 'text-gray-500' : 'text-gray-800'
-          }">${task.text}</span>
+          <span class="todo-text flex-1 font-medium ${task.completed ? 'text-gray-400' : 'text-gray-800'}">${task.text}</span>
           <button class="delete-btn text-gray-400 hover:text-red-500" data-index="${index}">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt text-sm"></i>
           </button>
         `;
 
         taskList.appendChild(li);
       });
 
-      // attach button listeners
-      document.querySelectorAll('.checkmark').forEach(btn =>
+      document.querySelectorAll('.checkmark-btn').forEach(btn =>
         btn.addEventListener('click', toggleTask)
       );
       document.querySelectorAll('.delete-btn').forEach(btn =>
@@ -179,7 +222,6 @@
       );
     }
 
-    // === ADD TASK ===
     function addTask(text) {
       const newTask = {
         text: text.trim(),
@@ -194,7 +236,6 @@
       updateTaskCount();
     }
 
-    // === TOGGLE COMPLETION ===
     function toggleTask(e) {
       const index = e.currentTarget.dataset.index;
       tasks[index].completed = !tasks[index].completed;
@@ -203,7 +244,6 @@
       updateTaskCount();
     }
 
-    // === DELETE TASK ===
     function deleteTask(e) {
       const index = e.currentTarget.dataset.index;
       tasks.splice(index, 1);
@@ -212,7 +252,6 @@
       updateTaskCount();
     }
 
-    // === CLEAR COMPLETED ===
     function clearCompleted() {
       tasks = tasks.filter(t => !t.completed);
       saveTasks();
@@ -220,19 +259,16 @@
       updateTaskCount();
     }
 
-    // === UPDATE COUNTER ===
     function updateTaskCount() {
       const total = tasks.length;
       const done = tasks.filter(t => t.completed).length;
-      taskCount.textContent = `${total} ${total === 1 ? 'task' : 'tasks'} (${done} completed)`;
+      taskCount.textContent = `${total} ${total === 1 ? 'task' : 'tasks'}${done > 0 ? ` (${done} completed)` : ''}`;
     }
 
-    // === SAVE ===
     function saveTasks() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    // === EVENT LISTENERS ===
     taskForm.addEventListener('submit', e => {
       e.preventDefault();
       addTask(taskInput.value);
@@ -242,7 +278,6 @@
 
     clearCompletedBtn.addEventListener('click', clearCompleted);
 
-    // Start app
     init();
   </script>
 </body>
